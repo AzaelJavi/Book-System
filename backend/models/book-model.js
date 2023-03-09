@@ -4,11 +4,25 @@ Joi.objectId = require("joi-objectid")(Joi);
 const { departmentSchema } = require("./department-model");
 
 const bookSchema = new mongoose.Schema({
-	title: { type: String, required: true, trim: true },
-	author: { type: String, required: true, trim: true },
-	department: { type: departmentSchema },
-	bookNumber: { type: Number, required: true },
-	numberInStock: { type: Number, required: true, min: 0 },
+	title: {
+		type: String,
+		required: true,
+		trim: true,
+	},
+	author: {
+		type: String,
+		trim: true,
+	},
+	department: {
+		type: departmentSchema,
+	},
+	bookNumber: {
+		type: Number,
+	},
+	numberInStock: {
+		type: Number,
+		min: 0,
+	},
 });
 
 const Book = mongoose.model("Book", bookSchema);
@@ -27,5 +41,6 @@ function validationJoi(req) {
 	return schema.validate(req);
 }
 
+exports.bookSchema = bookSchema;
 exports.validationJoi = validationJoi;
 exports.Book = Book;
