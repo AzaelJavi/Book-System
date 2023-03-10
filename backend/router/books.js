@@ -39,17 +39,7 @@ router.post("/", [validate(validationJoi)], async (req, res) => {
 router.put("/:id", [validate(validationJoi)], async (req, res) => {
 	const book = await Book.findByIdAndUpdate(
 		req.params.id,
-
-		// title: req.body.title,
-		// author: req.body.author,
-		// genre: {
-		// 	id: department._id,
-		// 	name: department.name,
-		// },
-		// bookNumber: req.body.bookNumber,
-		// numberInStock: req.body.numberInStock,
 		_.pick(req.body, ["title", "author", "bookNumber", "numberInStock"]),
-
 		{ new: true }
 	);
 

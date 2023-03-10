@@ -9,12 +9,26 @@ router.get("/", async (req, res) => {
 	res.send(department);
 });
 
+router.get("/:id", async (req, res) => {
+	const department = await Department.findById(req.params.id);
+	if (!department) return res.status(404).send("Department ID not found.");
+
+	res.send(department);
+});
+
 router.post("/", [validate(validationJoi)], async (req, res) => {
 	const department = new Department({
 		name: req.body.name,
 	});
 
 	await department.save();
+	res.send(department);
+});
+
+router.delete("/:id", async (req, res) => {
+	const department = await Department.findByIdAndDelete(req.params.id);
+	if (!department) return res.status(404).send("Department ID not found.");
+
 	res.send(department);
 });
 
