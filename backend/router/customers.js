@@ -5,6 +5,12 @@ const validate = require("../middleware/validationJoi");
 const { Book, bookSchema } = require("../models/book-model");
 const { Customer, validationJoi } = require("../models/customer-model");
 
+router.get("/", async (req, res) => {
+	const customer = await Customer.find().sort("name");
+
+	res.send(customer);
+});
+
 router.post("/", [validate(validationJoi)], async (req, res) => {
 	const book = await Book.findById(req.body.bookId);
 	if (!book) return res.status(400).send("Invalid Book");
@@ -23,6 +29,20 @@ router.post("/", [validate(validationJoi)], async (req, res) => {
 	res.send(customer);
 });
 
+//Customer
+router.put("/:id", validate(validationJoi), async (req, res) => {
+	const customer = await Customer.findByIdAndUpdate(
+		req.params.id,
+		_.pick(req.body, ["name", "address", "phone"]),
+		{ new: true }
+	);
+
+	if (!customer) return res.status(404).send("Invalid Customer ID.");
+
+	res.send(customer);
+});
+
+//Books
 router.put("/:id/books", async (req, res) => {
 	const book = await Book.findById(req.body.bookId);
 	if (!book) return res.status(400).send("Invalid Book ID.");
