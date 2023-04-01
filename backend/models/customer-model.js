@@ -23,23 +23,25 @@ const customerSchema = new mongoose.Schema({
 		minlength: 0,
 		maxlength: 11,
 	},
-	book: {
+	books: {
 		type: [bookSchema],
-		required: true,
+		default: [],
+		unique: true,
 	},
 });
 
 const Customer = mongoose.model("Customer", customerSchema);
-
-async function addBook(customerId, book) {
-	const customer = await Customer.findById(customerId);
-	customer.book.push(book);
-
-	customer.save();
-	// console.log(result);
-}
-
-addBook("6405f8ce2d2172ea1d8f54d0", new Book({ title: "Hello Goodbye" }));
+// TODO
+// Customer.aggregate([
+// 	{ $unwind: "books" },
+// 	{
+// 		$group: {
+// 			_id: "books.title",
+// 			count: { $sum: 1 },
+// 		},
+// 	},
+// 	{ $match: { count: { $gt: 1 } } },
+// ]);
 
 function validationJoi(req) {
 	const schema = Joi.object({
