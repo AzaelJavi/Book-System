@@ -3,6 +3,7 @@ const books = require("../router/books");
 const departments = require("../router/departments");
 const customers = require("../router/customers");
 const borrows = require("../router/borrow");
+const returns = require("../router/return");
 
 module.exports = function (app) {
 	app.use(express.json());
@@ -10,4 +11,5 @@ module.exports = function (app) {
 	app.use("/api/departments", departments);
 	app.use("/api/customers", customers);
 	app.use("/api/borrows", borrows);
+	app.use("/api/returns", returns);
 };
