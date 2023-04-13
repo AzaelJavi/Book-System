@@ -12,12 +12,10 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", [validate(validationJoi)], async (req, res) => {
-	let customer = await Customer.findOne({
-		studentNumber: req.body.studentNumber,
-	});
+	let customer = await Customer.findById(req.body.customerId);
 	if (!customer) return res.status(404).send("Customer not found.");
 
-	const book = await Book.findOne({ bookNumber: req.body.bookNumber });
+	const book = await Book.findById(req.body.bookId);
 	if (!book) return res.status(404).send("Book not found.");
 
 	if (book.numberInStock === 0)
@@ -25,16 +23,15 @@ router.post("/", [validate(validationJoi)], async (req, res) => {
 
 	let borrow = new Borrow({
 		customer: {
-			id: customer._id,
+			_id: customer._id,
 			name: customer.name,
 			studentNumber: customer.studentNumber,
 			address: customer.address,
 			phone: customer.phone,
 		},
 		book: {
-			id: book._id,
+			_id: book._id,
 			title: book.title,
-			bookNumber: book.bookNumber,
 		},
 	});
 
