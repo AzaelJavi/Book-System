@@ -38,6 +38,12 @@ const borrowSchema = new mongoose.Schema({
 				required: true,
 				trim: true,
 			},
+			bookNumber: {
+				type: Number,
+				required: true,
+				max: 2000,
+				min: 0,
+			},
 		}),
 		required: true,
 	},
@@ -51,12 +57,21 @@ const borrowSchema = new mongoose.Schema({
 	},
 });
 
+borrowSchema.statics.lookup = function (studentNumber, bookNumber) {
+	return this.findOne({
+		"customer.studentNumber": studentNumber,
+		"book.bookNumber": bookNumber,
+	});
+};
+
 const Borrow = mongoose.model("Borrow", borrowSchema);
 
 function validationJoi(req) {
 	const schema = Joi.object({
-		customerId: Joi.objectId().required(),
-		bookId: Joi.objectId().required(),
+		studentNumber: Joi.string().required().max(9),
+		bookNumber: Joi.number().required().max(2000).min(0),
+		// customerId: Joi.objectId().required(),
+		// bookId: Joi.objectId().required(),
 	});
 
 	return schema.validate(req);

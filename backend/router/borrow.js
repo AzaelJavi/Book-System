@@ -12,24 +12,29 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", [validate(validationJoi)], async (req, res) => {
-	let customer = await Customer.findById(req.body.customerId);
+	let customer = await Customer.findOne({
+		studentNumber: req.body.studentNumber,
+	});
 	if (!customer) return res.status(404).send("Customer not found.");
 
-	const book = await Book.findById(req.body.bookId);
+	const book = await Book.findOne({ bookNumber: req.body.bookNumber });
 	if (!book) return res.status(404).send("Book not found.");
 
 	if (book.numberInStock === 0)
 		return res.status(400).send("Book not in stock.");
 
-	const borrow = new Borrow({
+	let borrow = new Borrow({
 		customer: {
+			id: customer._id,
 			name: customer.name,
 			studentNumber: customer.studentNumber,
 			address: customer.address,
 			phone: customer.phone,
 		},
 		book: {
+			id: book._id,
 			title: book.title,
+			bookNumber: book.bookNumber,
 		},
 	});
 
@@ -40,7 +45,7 @@ router.post("/", [validate(validationJoi)], async (req, res) => {
 		{
 			$push: {
 				books: {
-					id: book._id,
+					id: book._id, //book.rental._id
 					title: book.title,
 				},
 			},
