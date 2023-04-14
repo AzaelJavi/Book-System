@@ -34,6 +34,15 @@ const customerSchema = new mongoose.Schema({
 	},
 });
 
+customerSchema.statics.lookup = function (bookId, title) {
+	return this.findOne({
+		books: {
+			_id: bookId,
+			title: title,
+		},
+	});
+};
+
 const Customer = mongoose.model("Customer", customerSchema);
 
 function validationJoi(req) {
