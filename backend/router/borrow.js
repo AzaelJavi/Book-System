@@ -21,6 +21,8 @@ router.post("/", [validate(validationJoi)], async (req, res) => {
 	if (book.numberInStock === 0)
 		return res.status(400).send("Book not in stock.");
 
+	// let borrow = await Borrow.lookup(customer, book);
+
 	let borrow = new Borrow({
 		customer: {
 			_id: customer._id,
@@ -35,6 +37,12 @@ router.post("/", [validate(validationJoi)], async (req, res) => {
 		},
 	});
 
+	const look = await Customer.lookup(req.body.bookId, borrow.book.title);
+	if (look)
+		return res
+			.status(400)
+			.send("This customer is already borrowed the same book.");
+
 	await borrow.save();
 
 	await Customer.findOneAndUpdate(
@@ -42,7 +50,7 @@ router.post("/", [validate(validationJoi)], async (req, res) => {
 		{
 			$push: {
 				books: {
-					id: book._id, //book.rental._id
+					_id: book._id,
 					title: book.title,
 				},
 			},
@@ -54,5 +62,6 @@ router.post("/", [validate(validationJoi)], async (req, res) => {
 	book.save();
 
 	res.send(borrow);
+	// }
 });
 module.exports = router;
