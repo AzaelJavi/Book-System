@@ -69,5 +69,6 @@ function validationJoi(req) {
 	return schema.validate(req);
 }
 
+exports.borrowSchema = borrowSchema;
 exports.validationJoi = validationJoi;
 exports.Borrow = Borrow;
