@@ -37,7 +37,11 @@ router.post("/", [validate(validationJoi)], async (req, res) => {
 		},
 	});
 
-	const look = await Customer.lookup(req.body.bookId, borrow.book.title);
+	const look = await Customer.lookup(
+		req.body.customerId,
+		req.body.bookId,
+		borrow.book.title
+	);
 	if (look)
 		return res
 			.status(400)

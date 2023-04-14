@@ -34,12 +34,10 @@ const customerSchema = new mongoose.Schema({
 	},
 });
 
-customerSchema.statics.lookup = function (bookId, title) {
+customerSchema.statics.lookup = function (customerId, bookId, title) {
 	return this.findOne({
-		books: {
-			_id: bookId,
-			title: title,
-		},
+		_id: customerId,
+		books: { $elemMatch: { _id: bookId, title: title } },
 	});
 };
 
