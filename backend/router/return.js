@@ -15,8 +15,6 @@ router.post("/", async (req, res) => {
 	const borrow = await Borrow.lookup(req.body.customerId, req.body.bookId);
 	if (!borrow) return res.status(404).send("Borrow not found.");
 
-	const customer = await Customer.findOne({ _id: req.body.customerId });
-
 	const returnDate = (borrow.dateReturned = new Date());
 	await borrow.save();
 
@@ -31,6 +29,7 @@ router.post("/", async (req, res) => {
 		}
 	);
 
+	const customer = await Customer.findOne({ _id: req.body.customerId });
 	customer.books.pull(req.body.bookId);
 	await customer.save();
 
