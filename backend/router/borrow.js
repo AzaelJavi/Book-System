@@ -12,6 +12,7 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", [validate(validationJoi)], async (req, res) => {
+	// Find the IDs based on req.body
 	let customer = await Customer.findById(req.body.customerId);
 	if (!customer) return res.status(404).send("Customer not found.");
 
@@ -20,8 +21,6 @@ router.post("/", [validate(validationJoi)], async (req, res) => {
 
 	if (book.numberInStock === 0)
 		return res.status(400).send("Book not in stock.");
-
-	// let borrow = await Borrow.lookup(customer, book);
 
 	let borrow = new Borrow({
 		customer: {
@@ -37,10 +36,11 @@ router.post("/", [validate(validationJoi)], async (req, res) => {
 		},
 	});
 
+	// This code will lookup on Customer Collection before it save and warn the client.
 	const look = await Customer.lookup(
 		req.body.customerId,
 		req.body.bookId,
-		borrow.book.title
+		book.title
 	);
 	if (look)
 		return res
@@ -49,23 +49,14 @@ router.post("/", [validate(validationJoi)], async (req, res) => {
 
 	await borrow.save();
 
-	await Customer.findOneAndUpdate(
-		{ _id: customer },
-		{
-			$push: {
-				books: {
-					_id: book._id,
-					title: book.title,
-				},
-			},
-		},
-		{ new: true }
-	);
+	// This code will push the book in the books array of the given ID
+	// of customer based on the field of book in borrow object.
+	customer.books.push(borrow.book);
+	await customer.save();
 
 	book.numberInStock--;
 	book.save();
 
 	res.send(borrow);
-	// }
 });
 module.exports = router;
