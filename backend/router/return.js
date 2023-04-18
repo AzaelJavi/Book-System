@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const { Borrow } = require("../models/borrow-model");
+const { Borrow, validationJoi } = require("../models/borrow-model");
 const { Book } = require("../models/book-model");
 const { Customer } = require("../models/customer-model");
 const { Returned } = require("../models/returned-model");
+const validate = require("../middleware/validationJoi");
+const auth = require("../middleware/auth");
+const isAdmin = require("../middleware/admin");
 
 router.get("/", async (req, res) => {
 	const returns = await Returned.find().sort("-dateReturned");
@@ -11,7 +14,7 @@ router.get("/", async (req, res) => {
 	res.send(returns);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", [auth, isAdmin, validate(validationJoi)], async (req, res) => {
 	const borrow = await Borrow.lookup(req.body.customerId, req.body.bookId);
 	if (!borrow) return res.status(404).send("Borrow not found.");
 

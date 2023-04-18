@@ -4,6 +4,8 @@ const { Borrow, validationJoi } = require("../models/borrow-model");
 const validate = require("../middleware/validationJoi");
 const { Customer } = require("../models/customer-model");
 const { Book } = require("../models/book-model");
+const auth = require("../middleware/auth");
+const isAdmin = require("../middleware/admin");
 
 router.get("/", async (req, res) => {
 	const borrow = await Borrow.find().sort("-dateOut");
@@ -11,7 +13,7 @@ router.get("/", async (req, res) => {
 	res.send(borrow);
 });
 
-router.post("/", [validate(validationJoi)], async (req, res) => {
+router.post("/", [auth, isAdmin, validate(validationJoi)], async (req, res) => {
 	// Find the IDs based on req.body
 	let customer = await Customer.findById(req.body.customerId);
 	if (!customer) return res.status(404).send("Customer not found.");
