@@ -22,6 +22,18 @@ router.post("/", [validate(validationJoi)], async (req, res) => {
 	if (book.numberInStock === 0)
 		return res.status(400).send("Book not in stock.");
 
+	// This code will lookup on Customer Collection before it create
+	// a borrow document and warn the client.
+	const look = await Customer.lookup(
+		req.body.customerId,
+		req.body.bookId,
+		book.title
+	);
+	if (look)
+		return res
+			.status(400)
+			.send("This customer is already borrowed the same book.");
+
 	let borrow = new Borrow({
 		customer: {
 			_id: customer._id,
@@ -35,17 +47,6 @@ router.post("/", [validate(validationJoi)], async (req, res) => {
 			title: book.title,
 		},
 	});
-
-	// This code will lookup on Customer Collection before it save and warn the client.
-	const look = await Customer.lookup(
-		req.body.customerId,
-		req.body.bookId,
-		book.title
-	);
-	if (look)
-		return res
-			.status(400)
-			.send("This customer is already borrowed the same book.");
 
 	await borrow.save();
 
