@@ -15,12 +15,24 @@ const customerSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 		trim: true,
+		unique: true,
+		minlength: 0,
+		maxlength: 9,
 	},
 	address: {
 		type: String,
 		required: true,
 		trim: true,
 		minlength: 3,
+		maxlength: 255,
+	},
+	email: {
+		type: String,
+		required: true,
+		trim: true,
+		minlength: 3,
+		maxlength: 255,
+		unique: true,
 	},
 	phone: {
 		type: String,
@@ -41,6 +53,11 @@ customerSchema.statics.lookup = function (customerId, bookId, title) {
 	});
 };
 
+customerSchema.statics.findDuplicates = function (studentNumber, email) {
+	return this.findOne({
+		$or: [{ studentNumber }, { email }],
+	});
+};
 const Customer = mongoose.model("Customer", customerSchema);
 
 function validationJoi(req) {
@@ -50,6 +67,7 @@ function validationJoi(req) {
 			"string.length": "Student Number must be exactly 9 characters long.",
 		}),
 		address: Joi.string().required().min(3),
+		email: Joi.string().required().email(),
 		phone: Joi.string().required().min(0).max(11),
 		bookId: Joi.objectId(),
 	});
