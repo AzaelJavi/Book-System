@@ -4,6 +4,9 @@ const _ = require("lodash");
 const { Book, validationJoi } = require("../models/book-model");
 const { Department } = require("../models/department-model");
 const validate = require("../middleware/validationJoi");
+const isValidId = require("../middleware/validateID");
+const isAdmin = require("../middleware/admin");
+const auth = require("../middleware/auth");
 
 router.get("/", async (req, res) => {
 	const book = await Book.find().sort("title");
@@ -17,7 +20,7 @@ router.get("/:id", async (req, res) => {
 	res.send(book);
 });
 
-router.post("/", [validate(validationJoi)], async (req, res) => {
+router.post("/", [auth, isAdmin, validate(validationJoi)], async (req, res) => {
 	const department = await Department.findById(req.body.departmentId);
 	if (!department) return res.status(400).send("Invalid Department.");
 
@@ -25,30 +28,38 @@ router.post("/", [validate(validationJoi)], async (req, res) => {
 		title: req.body.title,
 		author: req.body.author,
 		department: {
-			id: department._id,
+			_id: department._id,
 			name: department.name,
 		},
 		bookNumber: req.body.bookNumber,
 		numberInStock: req.body.numberInStock,
 	});
 
+	const bookNumber = await Book.lookup(req.body.bookNumber);
+	if (bookNumber)
+		return res.status(400).send("Book Number is already registered.");
+
 	await book.save();
 	res.send(book);
 });
 
-router.put("/:id", [validate(validationJoi)], async (req, res) => {
-	const book = await Book.findByIdAndUpdate(
-		req.params.id,
-		_.pick(req.body, ["title", "author", "bookNumber", "numberInStock"]),
-		{ new: true }
-	);
+router.put(
+	"/:id",
+	[auth, isAdmin, isValidId, validate(validationJoi)],
+	async (req, res) => {
+		const book = await Book.findByIdAndUpdate(
+			req.params.id,
+			_.pick(req.body, ["title", "author", "numberInStock"]),
+			{ new: true }
+		);
 
-	if (!book) return res.status(404).send("Book ID not found.");
+		if (!book) return res.status(404).send("Book ID not found.");
 
-	res.send(book);
-});
+		res.send(book);
+	}
+);
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", [auth, isAdmin, isValidId], async (req, res) => {
 	const book = await Book.findByIdAndDelete(req.params.id);
 	if (!book) return res.status(404).send("Book ID not found.");
 
