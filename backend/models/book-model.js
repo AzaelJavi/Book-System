@@ -22,7 +22,6 @@ const bookSchema = new mongoose.Schema({
 	},
 	bookNumber: {
 		type: Number,
-		unique: true,
 		required: true,
 	},
 	numberInStock: {
@@ -32,6 +31,11 @@ const bookSchema = new mongoose.Schema({
 	},
 });
 
+bookSchema.statics.lookup = function (bookNumber) {
+	return this.findOne({
+		bookNumber,
+	});
+};
 const Book = mongoose.model("Book", bookSchema);
 
 //validate
