@@ -1,5 +1,6 @@
 {
 	"jwtPrivateKey": "",
 	"db": "mongodb://localhost/bookRental",
-	"port": "3300"
+	"port": "3300",
+	"requiresAuth": false
 }
