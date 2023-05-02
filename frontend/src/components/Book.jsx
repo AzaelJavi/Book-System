@@ -8,10 +8,21 @@ import { toast } from "react-toastify";
 import Pagination from "./common/pagination";
 import { paginate } from "./../utils/paginate";
 import _ from "lodash";
+import SearchBar from "./common/searchBar";
 
 function Books(props) {
 	const [departments, setDepartment] = useState([]);
 	const [allBooks, setBook] = useState([]);
+
+	// List
+	const [selectedDepartment, setselectedDepartment] = useState(null);
+	const [sortColumn, setSortColumn] = useState({
+		path: "title",
+		order: "asc",
+	});
+
+	//Search
+	const [searchQuery, setSearchQuery] = useState("");
 
 	// Pagination
 	const [currentPage, setCurrentPage] = useState(1);
@@ -23,7 +34,8 @@ function Books(props) {
 	useEffect(() => {
 		async function fetchDepartment() {
 			const { data } = await getDepartments();
-			setDepartment(data);
+			const department = [{ id: 1, name: "All Departments" }, ...data];
+			setDepartment(department);
 		}
 
 		async function fetchBook() {
@@ -35,10 +47,29 @@ function Books(props) {
 	}, []);
 
 	const getPageData = () => {
-		const totalCount = allBooks.length;
-		const books = paginate(allBooks, currentPage, itemsPerPage);
+		let filtered = allBooks;
 
-		return { totalCount, data: books };
+		if (searchQuery)
+			filtered = allBooks.filter((v) =>
+				v.title.toLowerCase().includes(searchQuery.toLowerCase())
+			);
+		else if (selectedDepartment && selectedDepartment._id) {
+			filtered = allBooks.filter(
+				(v) => v.department._id === selectedDepartment._id
+			);
+		}
+		const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
+		const books = paginate(sorted, currentPage, itemsPerPage);
+
+		return { totalCount: filtered.length, data: books };
+	};
+
+	const handleListClick = (department) => {
+		// console.log(department);
+		setselectedDepartment(department);
+		setCurrentPage(1);
+		setMaxPageNumberLimit(5);
+		setMinPageNumberLimit(0);
 	};
 
 	const handlePage = (page) => {
@@ -60,13 +91,26 @@ function Books(props) {
 		}
 	};
 
+	const handleSort = (sortColumn) => {
+		setSortColumn(sortColumn);
+	};
+
+	const handleSearch = (query) => {
+		setSearchQuery(query);
+		setselectedDepartment(null);
+		setCurrentPage(1);
+	};
 	const { totalCount, data: books } = getPageData();
 
 	return (
 		<React.Fragment>
 			<div className="flex flex-col gap-8 mt-10 xl:flex-row items-center ">
-				<div className="xl:self-start">
-					<ListGroup data={departments} />
+				<div className="xl:self-start xl:ml-5">
+					<ListGroup
+						data={departments}
+						onSelectedDepartment={handleListClick}
+						selectedDepartment={selectedDepartment}
+					/>
 				</div>
 				<div className="w-full flex-col">
 					<div>
@@ -75,13 +119,28 @@ function Books(props) {
 						</Link>
 					</div>
 					<div>
-						<p className="my-2 sm:mx-6">
-							Showing {totalCount} books in database
-						</p>
+						{allBooks.length === 0 ? (
+							<p className="my-2 sm:mx-6">
+								{" "}
+								There are no books in the database
+							</p>
+						) : (
+							<p className="my-2 sm:mx-6">
+								Showing {totalCount} books in database
+							</p>
+						)}
 					</div>
+
+					<SearchBar value={searchQuery} onSearch={handleSearch} />
+
 					<div className="inline-block w-full py-2 sm:px-6 lg:px-6 overflow-x-auto">
 						<div className="md:inline-block min-w-full">
-							<BooksTable onDeleteBook={handleDeleteBook} books={books} />
+							<BooksTable
+								onDeleteBook={handleDeleteBook}
+								books={books}
+								onSort={handleSort}
+								sortColumn={sortColumn}
+							/>
 						</div>
 					</div>
 					<Pagination
@@ -93,7 +152,6 @@ function Books(props) {
 						maxPageNumberLimit={maxPageNumberLimit}
 						setMaxPageNumberLimit={setMaxPageNumberLimit}
 						pageNumberLimit={pageNumberLimit}
-						setPageNumberLimit={setPageNumberLimit}
 						minPageNumberLimit={minPageNumberLimit}
 						setMinPageNumberLimit={setMinPageNumberLimit}
 					/>

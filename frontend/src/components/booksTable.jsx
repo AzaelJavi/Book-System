@@ -1,12 +1,12 @@
 import React from "react";
 import Table from "./common/table";
 
-function BooksTable({ books, onDeleteBook }) {
+function BooksTable({ books, onDeleteBook, onSort, sortColumn }) {
 	const columns = [
-		{ path: "title", label: "Title" },
-		{ path: "author", label: "Author" },
+		{ path: "title", label: "Title", sort: true },
+		{ path: "author", label: "Author", sort: true },
 		{ path: "department.name", label: "Department" },
-		{ path: "bookNumber", label: "Book Number" },
+		{ path: "bookNumber", label: "Book Number", sort: true },
 		{ path: "numberInStock", label: "Stock" },
 		{
 			key: "delete",
@@ -27,7 +27,12 @@ function BooksTable({ books, onDeleteBook }) {
 
 	return (
 		<React.Fragment>
-			<Table columns={columns} data={books} />
+			<Table
+				columns={columns}
+				sortColumn={sortColumn}
+				onSort={onSort}
+				data={books}
+			/>
 		</React.Fragment>
 	);
 }
