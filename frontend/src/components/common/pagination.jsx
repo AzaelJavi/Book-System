@@ -10,12 +10,12 @@ function Pagination({
 	maxPageNumberLimit,
 	setMaxPageNumberLimit,
 	pageNumberLimit,
-	setPageNumberLimit,
 	minPageNumberLimit,
 	setMinPageNumberLimit,
 }) {
 	const pageCount = Math.ceil(itemCount / itemsPerPage);
 	if (pageCount === 1) return null;
+	if (itemCount === 0) return null;
 	const pages = _.range(1, pageCount + 1);
 
 	// Events
