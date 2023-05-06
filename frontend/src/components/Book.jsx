@@ -34,7 +34,7 @@ function Books(props) {
 	useEffect(() => {
 		async function fetchDepartment() {
 			const { data } = await getDepartments();
-			const department = [{ id: 1, name: "All Departments" }, ...data];
+			const department = [{ _id: "", name: "All Departments" }, ...data];
 			setDepartment(department);
 		}
 
@@ -46,6 +46,7 @@ function Books(props) {
 		fetchBook();
 	}, []);
 
+	console.log("department", departments);
 	const getPageData = () => {
 		let filtered = allBooks;
 
@@ -114,7 +115,9 @@ function Books(props) {
 				</div>
 				<div className="w-full flex-col">
 					<div>
-						<Link className="bg-blue-500 sm:mx-6 inline-block hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+						<Link
+							to="/books/new"
+							className="bg-blue-500 sm:mx-6 inline-block hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
 							New Book
 						</Link>
 					</div>

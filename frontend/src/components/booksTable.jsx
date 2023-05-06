@@ -1,9 +1,19 @@
 import React from "react";
 import Table from "./common/table";
+import { Link } from "react-router-dom";
 
 function BooksTable({ books, onDeleteBook, onSort, sortColumn }) {
 	const columns = [
-		{ path: "title", label: "Title", sort: true },
+		{
+			path: "title",
+			label: "Title",
+			sort: true,
+			content: (book) => (
+				<Link className="underline text-blue-600" to={`/books/${book._id}`}>
+					{book.title}
+				</Link>
+			),
+		},
 		{ path: "author", label: "Author", sort: true },
 		{ path: "department.name", label: "Department" },
 		{ path: "bookNumber", label: "Book Number", sort: true },

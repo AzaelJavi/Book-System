@@ -12,7 +12,7 @@ function TableBody({ data, columns }) {
 		<React.Fragment>
 			<tbody>
 				{data.map((item) => (
-					<tr key={item._id} className="border-b dark:border-neutral-500">
+					<tr key={item._id} className="border-b">
 						{columns.map((column) => (
 							<td
 								key={column.key || column.path}

@@ -7,6 +7,7 @@ import Borrow from "./components/Borrow";
 import NotFound from "./components/NotFound";
 import NavBar from "./components/common/navbar";
 import "react-toastify/dist/ReactToastify.css";
+import BooksForm from "./components/booksForm";
 
 function App() {
 	return (
@@ -14,6 +15,7 @@ function App() {
 			<ToastContainer />
 			<NavBar />
 			<Routes>
+				<Route path="/books/:id" element={<BooksForm />} />
 				<Route path="/books" element={<Book />} />
 				<Route path="/customers" element={<Customer />} />
 				<Route path="/borrows" element={<Borrow />} />
