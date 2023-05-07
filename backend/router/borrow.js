@@ -40,6 +40,7 @@ router.post("/", [auth, isAdmin, validate(validationJoi)], async (req, res) => {
 		customer: {
 			_id: customer._id,
 			name: customer.name,
+			email: customer.email,
 			studentNumber: customer.studentNumber,
 			address: customer.address,
 			phone: customer.phone,

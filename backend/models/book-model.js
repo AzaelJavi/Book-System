@@ -15,19 +15,23 @@ const bookSchema = new mongoose.Schema({
 		type: String,
 		trim: true,
 		required: true,
+		minlength: 0,
+		maxlength: 255,
 	},
 	department: {
 		type: departmentSchema,
-		required: true,
 	},
 	bookNumber: {
 		type: Number,
+		min: 0,
+		default: 0,
 		required: true,
 	},
 	numberInStock: {
 		type: Number,
 		required: true,
 		min: 0,
+		default: 0,
 	},
 });
 
@@ -44,7 +48,7 @@ function validationJoi(req) {
 	const schema = Joi.object({
 		title: Joi.string().required().min(3).max(100),
 		author: Joi.string().required().min(3).max(50),
-		departmentId: Joi.objectId().required(),
+		departmentId: Joi.objectId(),
 		bookNumber: Joi.number().required().min(0).max(2000),
 		numberInStock: Joi.number().required().min(0).max(50),
 	});

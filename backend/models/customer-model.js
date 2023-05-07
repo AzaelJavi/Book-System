@@ -41,7 +41,12 @@ const customerSchema = new mongoose.Schema({
 		maxlength: 11,
 	},
 	books: {
-		type: [bookSchema],
+		type: [
+			{
+				_id: { type: mongoose.Schema.Types.ObjectId, required: true },
+				title: { type: String, required: true },
+			},
+		],
 		default: [],
 	},
 });
