@@ -1,9 +1,9 @@
 import React from "react";
 
 function TableHeader({ columns, onSort, sortColumn }) {
-	const raiseSort = (path) => {
+	const raiseSort = (path, sort) => {
 		const newSortColumn = { ...sortColumn };
-		if (path === "title" || path === "author" || path === "bookNumber") {
+		if (sort) {
 			if (newSortColumn.path === path) {
 				newSortColumn.order = newSortColumn.order === "asc" ? "desc" : "asc";
 			} else {
@@ -55,7 +55,7 @@ function TableHeader({ columns, onSort, sortColumn }) {
 			<tr>
 				{columns.map((column) => (
 					<th
-						onClick={() => raiseSort(column.path)}
+						onClick={() => raiseSort(column.path, column.sort)}
 						key={column.path || column.key}
 						className="cursor-pointer whitespace-normal px-6 py-4">
 						{column.label} {renderSort(column)}
