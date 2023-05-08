@@ -100,6 +100,8 @@ function Books(props) {
 		setSearchQuery(query);
 		setselectedDepartment(null);
 		setCurrentPage(1);
+		setMaxPageNumberLimit(5);
+		setMinPageNumberLimit(0);
 	};
 	const { totalCount, data: books } = getPageData();
 
