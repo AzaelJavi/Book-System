@@ -43,19 +43,9 @@ router.put(
 	"/:id",
 	[auth, isAdmin, isValidId, validate(validationJoi)],
 	async (req, res) => {
-		let customer = await Customer.findDuplicates(
-			req.body.studentNumber,
-			req.body.email
-		);
-
-		if (customer)
-			return res
-				.status(400)
-				.send("Student Number or Email is already registered.");
-
-		customer = await Customer.findByIdAndUpdate(
+		const customer = await Customer.findByIdAndUpdate(
 			req.params.id,
-			_.pick(req.body, ["name", "studentNumber", "address", "email", "phone"]),
+			_.pick(req.body, ["name", "address", "phone"]),
 			{ new: true }
 		);
 
