@@ -13,6 +13,13 @@ router.get("/", async (req, res) => {
 	res.send(customer);
 });
 
+router.get("/:id", async (req, res) => {
+	const customer = await Customer.findById(req.params.id);
+	if (!customer) return res.status(404).send("Customer not found.");
+
+	res.send(customer);
+});
+
 router.post("/", [auth, isAdmin, validate(validationJoi)], async (req, res) => {
 	let customer = await Customer.findDuplicates(
 		req.body.studentNumber,
