@@ -5,7 +5,16 @@ function TableBody({ data, columns }) {
 	const renderCell = (item, column) => {
 		if (column.content) return column.content(item);
 
-		return _.get(item, column.path);
+		let value = _.get(item, column.path);
+		console.log(value);
+		if (Array.isArray(value) && column.path === "books") {
+			if (value.length === 0) {
+				return "Not Borrowing";
+			}
+			const titles = value.map((book) => book.title).join(", ");
+			return <span className="italic">{titles}</span>;
+		}
+		return value;
 	};
 
 	return (
