@@ -8,6 +8,7 @@ import NotFound from "./components/NotFound";
 import NavBar from "./components/common/navbar";
 import "react-toastify/dist/ReactToastify.css";
 import BooksForm from "./components/booksForm";
+import CustomersForm from "./components/customersForm";
 
 function App() {
 	return (
@@ -17,10 +18,12 @@ function App() {
 			<Routes>
 				<Route path="/books/:id" element={<BooksForm />} />
 				<Route path="/books" element={<Book />} />
+				<Route path="/customers/:id" element={<CustomersForm />} />
 				<Route path="/customers" element={<Customer />} />
 				<Route path="/borrows" element={<Borrow />} />
 				<Route path="/not-found" element={<NotFound />} />
 				<Route path="/" element={<Navigate to="/books" />} />
+				<Route path="*" element={<Navigate to="/not-found" />} />
 			</Routes>
 		</React.Fragment>
 	);
