@@ -46,12 +46,13 @@ function useForm({ schemaJoi, doSubmit, data, setData }) {
 		setError(newError);
 	};
 
-	const renderInput = (name, label, type = "text") => {
+	const renderInput = (name, label, type = "text", isReadOnly = false) => {
 		return (
 			<Input
 				type={type}
 				name={name}
 				label={label}
+				isReadOnly={isReadOnly}
 				value={data[name]}
 				error={error[name]}
 				onChange={handleChange}

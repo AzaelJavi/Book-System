@@ -1,6 +1,6 @@
 import React from "react";
 
-function Input({ label, name, error, disabled, ...rest }) {
+function Input({ label, name, isReadOnly, error, disabled, ...rest }) {
 	return (
 		<div className="mb-3">
 			<label
@@ -11,9 +11,10 @@ function Input({ label, name, error, disabled, ...rest }) {
 			<input
 				name={name}
 				id={name}
+				readOnly={isReadOnly}
 				{...rest}
-				className={`${
-					error ? "border-red-500" : "border-gray-300"
+				className={`${error ? "border-red-500" : "border-gray-300"} ${
+					isReadOnly ? "cursor-not-allowed" : ""
 				} bg-gray-50 border rounded-lg focus:outline-none  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-xl`}
 			/>
 			{error && (
