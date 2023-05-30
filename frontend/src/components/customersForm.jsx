@@ -72,9 +72,13 @@ function CustomersForm(props) {
 			<h1 className="text-4xl font-medium mb-5">Customer Form</h1>
 			<form onSubmit={handleSubmit}>
 				{renderInput("name", "Name")}
-				{renderInput("studentNumber", "Student Number", "text", true)}
+				{renderInput(
+					"studentNumber",
+					"Student Number",
+					id !== "new" ? true : false
+				)}
 				{renderInput("address", "Address")}
-				{renderInput("email", "Email", "text", true)}
+				{renderInput("email", "Email", id !== "new" ? true : false)}
 				{renderInput("phone", "Phone Number")}
 				{renderButton("Save")}
 			</form>
