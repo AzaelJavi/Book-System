@@ -77,7 +77,12 @@ function Navbar(props) {
 							</div>
 						</div>
 						<div className="flex justify-center items-center sm:mx-10 xl:mx-0">
-							<Link to="/" className="text-white hover:text-gray-200">
+							<Link
+								to="/register"
+								className="text-white hover:text-gray-200 mr-6">
+								Register
+							</Link>
+							<Link to="/login" className="text-white hover:text-gray-200">
 								Login
 							</Link>
 						</div>

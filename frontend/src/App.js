@@ -9,6 +9,8 @@ import NavBar from "./components/common/navbar";
 import "react-toastify/dist/ReactToastify.css";
 import BooksForm from "./components/booksForm";
 import CustomersForm from "./components/customersForm";
+import LoginForm from "./components/loginForm";
+import RegisterForm from "./components/registerForm";
 
 function App() {
 	return (
@@ -16,6 +18,8 @@ function App() {
 			<ToastContainer />
 			<NavBar />
 			<Routes>
+				<Route path="/login" element={<LoginForm />} />
+				<Route path="/register" element={<RegisterForm />} />
 				<Route path="/books/:id" element={<BooksForm />} />
 				<Route path="/books" element={<Book />} />
 				<Route path="/customers/:id" element={<CustomersForm />} />
