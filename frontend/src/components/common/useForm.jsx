@@ -17,13 +17,11 @@ function useForm({ schemaJoi, doSubmit, data, setData }) {
 	};
 
 	const handleSubmit = (e) => {
-		console.log("data:", data);
 		e.preventDefault();
 
 		const validationErrors = validate();
 		setError(validationErrors || {});
 		if (validationErrors) return;
-
 		doSubmit();
 	};
 
@@ -88,6 +86,8 @@ function useForm({ schemaJoi, doSubmit, data, setData }) {
 		validate,
 		validateProperty,
 		handleSubmit,
+		error,
+		setError,
 	};
 }
 

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Joi from "joi-browser";
 import useForm from "./common/useForm";
 import { useNavigate } from "react-router-dom";
+import auth from "../services/authService";
 
 function LoginForm(props) {
 	const navigate = useNavigate();
@@ -16,11 +17,25 @@ function LoginForm(props) {
 		password: "",
 	});
 
-	const doSubmit = () => {
-		navigate("/books");
+	const doSubmit = async () => {
+		try {
+			await auth.login(data.email, data.password);
+
+			const { state } = props.location;
+			window.location = state ? state.from.pathname : "/";
+			console.log("state", state);
+			console.log("Props", props);
+		} catch (ex) {
+			if (ex.response && ex.reponse.data === 400) {
+				const errors = { ...error };
+				errors.email = ex.response.data;
+				setError({ errors });
+			}
+		}
+		// navigate("/books");
 	};
 
-	const { renderInput, renderButton, handleSubmit } = useForm({
+	const { renderInput, renderButton, handleSubmit, error, setError } = useForm({
 		schemaJoi,
 		doSubmit,
 		data,
