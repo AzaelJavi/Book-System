@@ -8,7 +8,7 @@ import { paginate } from "../utils/paginate";
 import _ from "lodash";
 import { toast } from "react-toastify";
 
-function Customer(props) {
+function Customer({ user }) {
 	const [allCustomers, setCustomers] = useState([]);
 
 	// Sorting
@@ -56,7 +56,7 @@ function Customer(props) {
 			(v) => v._id !== customer._id
 		);
 		setCustomers(customersFiltered);
-		console.log(customer);
+		// console.log(customer);
 
 		try {
 			await deleteCustomer(customer._id);
@@ -83,18 +83,20 @@ function Customer(props) {
 		setCurrentPage(page);
 	};
 	const { totalCount, data: customers } = getPageData();
-	console.log(allCustomers);
+	// console.log(allCustomers);
 	return (
 		<React.Fragment>
 			<div className="flex flex-col gap-8 mt-10 xl:flex-row items-center ">
 				<div className="w-full flex-col">
-					<div>
-						<Link
-							to="/customers/new"
-							className="bg-blue-500 sm:mx-6 inline-block hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-							New Customer
-						</Link>
-					</div>
+					{user && user.isAdmin ? (
+						<div>
+							<Link
+								to="/customers/new"
+								className="bg-blue-500 sm:mx-6 inline-block hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+								New Customer
+							</Link>
+						</div>
+					) : null}
 					<div>
 						{totalCount === 0 ? (
 							<p className="my-2 sm:mx-6">

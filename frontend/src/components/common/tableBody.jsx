@@ -6,7 +6,7 @@ function TableBody({ data, columns }) {
 		if (column.content) return column.content(item);
 
 		let value = _.get(item, column.path);
-		console.log(value);
+		// console.log(value);
 		if (Array.isArray(value) && column.path === "books") {
 			if (value.length === 0) {
 				return "Not Borrowing";

@@ -10,7 +10,7 @@ import { paginate } from "./../utils/paginate";
 import _ from "lodash";
 import SearchBar from "./common/searchBar";
 
-function Books(props) {
+function Books({ user }) {
 	const [departments, setDepartment] = useState([]);
 	const [allBooks, setBook] = useState([]);
 
@@ -46,7 +46,7 @@ function Books(props) {
 		fetchBook();
 	}, []);
 
-	console.log("department", departments);
+	// console.log("department", departments);
 	const getPageData = () => {
 		let filtered = allBooks;
 
@@ -116,13 +116,15 @@ function Books(props) {
 					/>
 				</div>
 				<div className="w-full flex-col">
-					<div>
-						<Link
-							to="/books/new"
-							className="bg-blue-500 sm:mx-6 inline-block hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-							New Book
-						</Link>
-					</div>
+					{user && user.isAdmin ? (
+						<div>
+							<Link
+								to="/books/new"
+								className="bg-blue-500 sm:mx-6 inline-block hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+								New Book
+							</Link>
+						</div>
+					) : null}
 					<div>
 						{allBooks.length === 0 ? (
 							<p className="my-2 sm:mx-6">

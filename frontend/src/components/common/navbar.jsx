@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
+import { greet } from "../../utils/greetUser";
 
 const navigation = [
 	{ name: "Books", path: "/books" },
@@ -8,12 +9,15 @@ const navigation = [
 	// { name: 'Returned', path: '#', current: false },
 ];
 
-function Navbar(props) {
+function Navbar({ user }) {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const handleClick = () => {
 		setIsOpen(!isOpen);
 	};
+
+	// console.log("User", user);
+	// const username = user.username;
 
 	return (
 		<header>
@@ -76,16 +80,30 @@ function Navbar(props) {
 								))}
 							</div>
 						</div>
-						<div className="flex justify-center items-center sm:mx-10 xl:mx-0">
-							<Link
-								to="/register"
-								className="text-white hover:text-gray-200 mr-6">
-								Register
-							</Link>
-							<Link to="/login" className="text-white hover:text-gray-200">
-								Login
-							</Link>
-						</div>
+						{!user && (
+							<div className="flex justify-center items-center sm:mx-10 xl:mx-0">
+								<Link
+									to="/register"
+									className="text-white hover:text-gray-200 mr-6">
+									Register
+								</Link>
+								<Link to="/login" className="text-white hover:text-gray-200">
+									Login
+								</Link>
+							</div>
+						)}
+						{user && (
+							<div className="flex justify-center items-center sm:mx-10 xl:mx-0">
+								<Link
+									to="/profile"
+									className="text-white hover:text-gray-200 mr-6">
+									{greet(user.username)}
+								</Link>
+								<Link to="/logout" className="text-white hover:text-gray-200">
+									Logout
+								</Link>
+							</div>
+						)}
 					</div>
 				</div>
 				{isOpen && (

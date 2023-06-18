@@ -3,10 +3,9 @@ import Joi from "joi-browser";
 import useForm from "./common/useForm";
 import { useNavigate } from "react-router-dom";
 import { register } from "../services/userService";
+import auth from "../services/authService";
 
 function RegisterForm(props) {
-	const navigate = useNavigate();
-
 	const [data, setData] = useState({
 		email: "",
 		username: "",
@@ -21,7 +20,9 @@ function RegisterForm(props) {
 
 	const doSubmit = async () => {
 		try {
-			await register(data);
+			const { headers } = await register(data);
+			auth.loginWithJwt(headers["x-auth-token"]);
+			window.location = "/";
 		} catch (ex) {
 			if (ex.response && ex.response.status === 400) {
 				const errors = { ...error };
@@ -29,7 +30,6 @@ function RegisterForm(props) {
 				setError(errors);
 			}
 		}
-		// navigate("/");
 	};
 	const { renderInput, handleSubmit, renderButton, error, setError } = useForm({
 		schemaJoi,
