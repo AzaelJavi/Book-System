@@ -7,9 +7,9 @@ import auth from "../services/authService";
 function LoginForm(props) {
 	const location = useLocation();
 
-	// console.log("Locations", location);
+	console.log("Locations", location);
 	// const { location } = props;
-	// console.log("Props", location);
+	// console.log("Props", props);
 	const schemaJoi = {
 		email: Joi.string().email().min(3).max(50).label("Email"),
 		password: Joi.string().min(8).max(50).label("Password"),
@@ -24,8 +24,8 @@ function LoginForm(props) {
 		try {
 			await auth.login(data.email, data.password);
 
-			// const state = locations.state;
-			// window.location = state ? state.from.pathname : "/"; //This is connected to Protected Route
+			const state = location.state;
+			window.location = state ? state.from : "/"; //This is connected to Protected Route
 		} catch (ex) {
 			console.log("Exx", ex);
 			if (ex.response && ex.response.status === 400) {
