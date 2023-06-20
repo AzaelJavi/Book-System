@@ -14,16 +14,11 @@ import RegisterForm from "./components/registerForm";
 import Logout from "./components/logout";
 import auth from "./services/authService";
 import ProtectedRoutes from "./components/protectedRoutes";
+import useCurrentUser from "./components/hooks/useCurrentUser";
 
 function App() {
-	const [user, setUser] = useState("");
-
-	useEffect(() => {
-		const user = auth.getCurrentUser();
-		setUser(user);
-	}, []);
-
-	// console.log("User", user);
+	const user = useCurrentUser();
+	console.log("User", user);
 
 	return (
 		<React.Fragment>
