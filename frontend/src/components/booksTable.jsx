@@ -1,6 +1,8 @@
 import React from "react";
 import Table from "./common/table";
 import { Link } from "react-router-dom";
+import auth from "../services/authService";
+import useCurrentUser from "./hooks/useCurrentUser";
 
 function BooksTable({ books, onDeleteBook, onSort, sortColumn }) {
 	const columns = [
@@ -18,23 +20,21 @@ function BooksTable({ books, onDeleteBook, onSort, sortColumn }) {
 		{ path: "department.name", label: "Department" },
 		{ path: "bookNumber", label: "Book Number", sort: true },
 		{ path: "numberInStock", label: "Stock" },
-		{
-			key: "delete",
-			content: (book) => (
-				<button
-					className="bg-red-600 text-white uppercase font-medium rounded-md py-3 px-5"
-					onClick={() => onDeleteBook(book)}>
-					Delete
-				</button>
-			),
-		},
 	];
 
-	// const showDeleteButton = {
-	// 	key: "delete",
-	// 	content: (book) => <button onClick={() => onDeleteBook(book)}></button>,
-	// };
+	const showDeleteButton = {
+		key: "delete",
+		content: (book) => (
+			<button
+				className="bg-red-600 text-white uppercase font-medium rounded-md py-3 px-5"
+				onClick={() => onDeleteBook(book)}>
+				Delete
+			</button>
+		),
+	};
 
+	const user = useCurrentUser();
+	if (user && user.isAdmin) columns.push(showDeleteButton);
 	return (
 		<React.Fragment>
 			<Table
