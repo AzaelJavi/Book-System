@@ -72,8 +72,6 @@ router.post("/", [auth, isAdmin, validate(validationJoi)], async (req, res) => {
 		await customer.save();
 	}
 
-	// customer.books = customer.books.concat(borrowBooks);
-
 	await Book.updateMany(
 		{ _id: { $in: req.body.bookIds } },
 		{ $inc: { numberInStock: -1 } }
