@@ -69,7 +69,7 @@ const Borrow = mongoose.model("Borrow", borrowSchema);
 function validationJoi(req) {
 	const schema = Joi.object({
 		customerId: Joi.objectId().required(),
-		bookId: Joi.objectId().required(),
+		bookIds: Joi.array().items(Joi.objectId()).min(1).max(5).required(),
 	});
 
 	return schema.validate(req);

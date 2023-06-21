@@ -40,15 +40,17 @@ const customerSchema = new mongoose.Schema({
 		minlength: 0,
 		maxlength: 11,
 	},
-	books: {
-		type: [
-			{
-				_id: { type: mongoose.Schema.Types.ObjectId, required: true },
-				title: { type: String, required: true },
-			},
-		],
-		default: [],
-	},
+	books: [
+		{
+			type: new mongoose.Schema({
+				title: {
+					type: String,
+					required: true,
+					trim: true,
+				},
+			}),
+		},
+	],
 });
 
 customerSchema.statics.lookup = function (customerId, bookId, title) {

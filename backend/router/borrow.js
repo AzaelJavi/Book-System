@@ -18,49 +18,70 @@ router.post("/", [auth, isAdmin, validate(validationJoi)], async (req, res) => {
 	let customer = await Customer.findById(req.body.customerId);
 	if (!customer) return res.status(404).send("Customer not found.");
 
-	const book = await Book.findById(req.body.bookId);
-	if (!book) return res.status(404).send("Book not found.");
+	const books = await Book.find({ _id: { $in: req.body.bookIds } });
 
-	if (book.numberInStock === 0)
-		return res.status(400).send("Book not in stock.");
-
-	// This code will lookup on Customer Collection before it create
-	// a borrow document and warn the client.
-	const look = await Customer.lookup(
-		req.body.customerId,
-		req.body.bookId,
-		book.title
-	);
-	if (look)
+	// Prevent the client to borrow same books also to prevent the customer having the same books borrowed.
+	if (hasDuplicates(req.body.bookIds))
 		return res
 			.status(400)
-			.send("This customer is already borrowed the same book.");
+			.send("You cannot borrow same books in one transaction.");
 
-	let borrow = new Borrow({
-		customer: {
-			_id: customer._id,
-			name: customer.name,
-			email: customer.email,
-			studentNumber: customer.studentNumber,
-			address: customer.address,
-			phone: customer.phone,
-		},
-		book: {
-			_id: book._id,
-			title: book.title,
-		},
-	});
+	if (books.length < 0)
+		return res.status(404).send("One or more books not found..");
 
-	await borrow.save();
+	const borrowBooks = [];
+	let borrow;
 
-	// This code will push the book in the books array of the given ID
-	// of customer based on the field of book in borrow object.
-	customer.books.push(borrow.book);
-	await customer.save();
+	for (const book of books) {
+		if (book.numberInStock === 0)
+			return res.status(400).send(`The book ${book.title} is not in stock.`);
 
-	book.numberInStock--;
-	book.save();
+		// This code will lookup on Customer Collection before it create
+		// a borrow document and warn the client.
+		const checkBook = await Customer.lookup(
+			req.body.customerId,
+			book._id,
+			book.title
+		);
+		if (checkBook)
+			return res
+				.status(400)
+				.send(`This customer is already borrowed the book ${book.title}.`);
 
-	res.send(borrow);
+		borrow = new Borrow({
+			customer: {
+				_id: customer._id,
+				name: customer.name,
+				email: customer.email,
+				studentNumber: customer.studentNumber,
+				address: customer.address,
+				phone: customer.phone,
+			},
+			book: {
+				_id: book._id,
+				title: book.title,
+			},
+		});
+
+		await borrow.save();
+
+		borrowBooks.push(borrow);
+		book.numberInStock--;
+
+		customer.books.push(borrow.book);
+		await customer.save();
+	}
+
+	// customer.books = customer.books.concat(borrowBooks);
+
+	await Book.updateMany(
+		{ _id: { $in: req.body.bookIds } },
+		{ $inc: { numberInStock: -1 } }
+	);
+	res.send(borrowBooks);
 });
+
+function hasDuplicates(array) {
+	return new Set(array).size !== array.length;
+}
 module.exports = router;
