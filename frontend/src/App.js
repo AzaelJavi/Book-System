@@ -5,7 +5,7 @@ import Book from "./components/Book";
 import Customer from "./components/Customer";
 import Borrow from "./components/Borrow";
 import NotFound from "./components/NotFound";
-import NavBar from "./components/common/navbar";
+import NavBar from "./components/widgets/navbar";
 import "react-toastify/dist/ReactToastify.css";
 import BooksForm from "./components/booksForm";
 import CustomersForm from "./components/customersForm";

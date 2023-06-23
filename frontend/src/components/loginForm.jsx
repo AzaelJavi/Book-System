@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Joi from "joi-browser";
-import useForm from "./common/useForm";
+import useForm from "./widgets/useForm";
 import { useNavigate, useLocation } from "react-router-dom";
 import auth from "../services/authService";
 

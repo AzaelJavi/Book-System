@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getDepartments } from "../services/departmentService";
 import { getBook } from "../services/bookService";
-import useForm from "./common/useForm";
+import useForm from "./widgets/useForm";
 import Joi from "joi-browser";
 import { saveBook } from "./../services/bookService";
 

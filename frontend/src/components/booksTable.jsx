@@ -1,5 +1,5 @@
 import React from "react";
-import Table from "./common/table";
+import Table from "./widgets/table";
 import { Link } from "react-router-dom";
 import auth from "../services/authService";
 import useCurrentUser from "./hooks/useCurrentUser";

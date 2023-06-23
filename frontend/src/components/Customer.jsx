@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import SearchBar from "./common/searchBar";
-import Pagination from "./common/pagination";
+import SearchBar from "./widgets/searchBar";
+import Pagination from "./widgets/pagination";
 import { deleteCustomer, getCustomers } from "../services/customerService";
 import CustomersTable from "./customersTable";
 import { paginate } from "../utils/paginate";

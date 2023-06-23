@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import useForm from "./common/useForm";
+import useForm from "./widgets/useForm";
 import { getCustomer, saveCustomer } from "../services/customerService";
 import { useNavigate, useParams } from "react-router-dom";
 import Joi from "joi-browser";

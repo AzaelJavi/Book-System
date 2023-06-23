@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import BooksTable from "./booksTable";
 import { getDepartments } from "../services/departmentService";
-import ListGroup from "./common/listGroup";
+import ListGroup from "./widgets/listGroup";
 import { Link } from "react-router-dom";
 import { getBooks, deleteBooks } from "../services/bookService";
 import { toast } from "react-toastify";
-import Pagination from "./common/pagination";
+import Pagination from "./widgets/pagination";
 import { paginate } from "./../utils/paginate";
 import _ from "lodash";
-import SearchBar from "./common/searchBar";
+import SearchBar from "./widgets/searchBar";
 
 function Books({ user }) {
 	const [departments, setDepartment] = useState([]);
