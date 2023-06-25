@@ -71,15 +71,7 @@ function useForm({ schemaJoi, doSubmit, data, setData }) {
 		);
 	};
 
-	const renderButton = (label) => {
-		return (
-			<button className="bg-blue-500 px-7 text-white font-medium py-2.5 hover:bg-blue-700 rounded-lg">
-				{label}
-			</button>
-		);
-	};
 	return {
-		renderButton,
 		renderSelect,
 		renderInput,
 		handleChange,

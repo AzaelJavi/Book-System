@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import Joi from "joi-browser";
+import { useLocation } from "react-router-dom";
 import useForm from "./widgets/useForm";
-import { useNavigate, useLocation } from "react-router-dom";
+import Button from "./widgets/button";
 import auth from "../services/authService";
 
 function LoginForm(props) {
 	const location = useLocation();
 
-	console.log("Locations", location);
-	// const { location } = props;
-	// console.log("Props", props);
 	const schemaJoi = {
 		email: Joi.string().email().min(3).max(50).label("Email"),
 		password: Joi.string().min(8).max(50).label("Password"),
@@ -38,12 +36,15 @@ function LoginForm(props) {
 		}
 	};
 
-	const { renderInput, renderButton, handleSubmit, error, setError } = useForm({
+	const { renderInput, handleSubmit, error, setError } = useForm({
 		schemaJoi,
 		doSubmit,
 		data,
 		setData,
 	});
+
+	const btnClassName =
+		"bg-blue-500 px-7 text-white font-medium py-2.5 hover:bg-blue-700 rounded-lg";
 
 	return (
 		<div className="m-10 w-auto">
@@ -51,7 +52,7 @@ function LoginForm(props) {
 			<form onSubmit={handleSubmit}>
 				{renderInput("email", "Email")}
 				{renderInput("password", "Password", false, "password")}
-				{renderButton("Login")}
+				<Button className={btnClassName}>Login</Button>
 			</form>
 		</div>
 	);

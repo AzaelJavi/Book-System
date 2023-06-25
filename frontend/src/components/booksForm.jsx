@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getDepartments } from "../services/departmentService";
 import { getBook } from "../services/bookService";
-import useForm from "./widgets/useForm";
-import Joi from "joi-browser";
 import { saveBook } from "./../services/bookService";
+import useForm from "./widgets/useForm";
+import Button from "./widgets/button";
+import Joi from "joi-browser";
 
 function BooksForm(props) {
 	const { id } = useParams();
@@ -77,12 +78,15 @@ function BooksForm(props) {
 		navigate("/books");
 	};
 
-	const { renderInput, renderButton, renderSelect, handleSubmit } = useForm({
+	const { renderInput, renderSelect, handleSubmit } = useForm({
 		schemaJoi,
 		doSubmit,
 		data,
 		setData,
 	});
+
+	const btnClassName =
+		"bg-blue-500 px-7 text-white font-medium py-2.5 hover:bg-blue-700 rounded-lg";
 
 	return (
 		<div className="m-10 w-auto">
@@ -93,7 +97,7 @@ function BooksForm(props) {
 				{renderSelect("departmentId", "Department", departments)}
 				{renderInput("bookNumber", "Book Number", "number")}
 				{renderInput("numberInStock", "Number in Stock", "number")}
-				{renderButton("Save")}
+				<Button className={btnClassName}>Save</Button>
 			</form>
 		</div>
 	);

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Joi from "joi-browser";
-import useForm from "./widgets/useForm";
-import { useNavigate } from "react-router-dom";
 import { register } from "../services/userService";
 import auth from "../services/authService";
+import useForm from "./widgets/useForm";
+import Button from "./widgets/button";
 
 function RegisterForm(props) {
 	const [data, setData] = useState({
@@ -31,12 +31,16 @@ function RegisterForm(props) {
 			}
 		}
 	};
-	const { renderInput, handleSubmit, renderButton, error, setError } = useForm({
+	const { renderInput, handleSubmit, error, setError } = useForm({
 		schemaJoi,
 		doSubmit,
 		data,
 		setData,
 	});
+
+	const btnClassName =
+		"bg-blue-500 px-7 text-white font-medium py-2.5 hover:bg-blue-700 rounded-lg";
+
 	return (
 		<div className="m-10 w-auto">
 			<h1 className="text-4xl font-medium mb-5">Register Form</h1>
@@ -44,7 +48,7 @@ function RegisterForm(props) {
 				{renderInput("email", "Email")}
 				{renderInput("username", "Username")}
 				{renderInput("password", "Password", false, "password")}
-				{renderButton("Submit")}
+				<Button className={btnClassName}>Submit</Button>
 			</form>
 		</div>
 	);

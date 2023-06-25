@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import useForm from "./widgets/useForm";
 import { getCustomer, saveCustomer } from "../services/customerService";
 import { useNavigate, useParams } from "react-router-dom";
 import Joi from "joi-browser";
+import Button from "./widgets/button";
+import useForm from "./widgets/useForm";
 
 function CustomersForm(props) {
 	const { id } = useParams();
@@ -60,12 +61,15 @@ function CustomersForm(props) {
 
 		navigate("/customers");
 	};
-	const { renderInput, renderButton, handleSubmit } = useForm({
+	const { renderInput, handleSubmit } = useForm({
 		data,
 		setData,
 		doSubmit,
 		schemaJoi,
 	});
+
+	const btnClassName =
+		"bg-blue-500 px-7 text-white font-medium py-2.5 hover:bg-blue-700 rounded-lg";
 
 	return (
 		<div className="m-10 w-auto">
@@ -80,7 +84,7 @@ function CustomersForm(props) {
 				{renderInput("address", "Address")}
 				{renderInput("email", "Email", id !== "new" ? true : false)}
 				{renderInput("phone", "Phone Number")}
-				{renderButton("Save")}
+				<Button className={btnClassName}>Save</Button>
 			</form>
 		</div>
 	);
