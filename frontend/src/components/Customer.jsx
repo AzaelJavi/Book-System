@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import SearchBar from "./widgets/searchBar";
+import SearchBar from "./widgets/searchBarBookCustomer";
 import Pagination from "./widgets/pagination";
 import { deleteCustomer, getCustomers } from "../services/customerService";
 import CustomersTable from "./customersTable";
@@ -56,7 +56,6 @@ function Customer({ user }) {
 			(v) => v._id !== customer._id
 		);
 		setCustomers(customersFiltered);
-		// console.log(customer);
 
 		try {
 			await deleteCustomer(customer._id);
@@ -83,7 +82,6 @@ function Customer({ user }) {
 		setCurrentPage(page);
 	};
 	const { totalCount, data: customers } = getPageData();
-	// console.log(allCustomers);
 	return (
 		<React.Fragment>
 			<div className="flex flex-col gap-8 mt-10 xl:flex-row items-center ">
@@ -110,7 +108,11 @@ function Customer({ user }) {
 						)}
 					</div>
 
-					<SearchBar value={searchQuery} onSearch={handleSearch} />
+					<SearchBar
+						value={searchQuery}
+						setValue={setSearchQuery}
+						onSearch={handleSearch}
+					/>
 
 					<div className="inline-block w-full py-2 sm:px-6 lg:px-6 overflow-x-auto">
 						<div className="md:inline-block min-w-full">

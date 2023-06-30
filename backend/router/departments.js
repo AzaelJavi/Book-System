@@ -6,7 +6,7 @@ const auth = require("../middleware/auth");
 const isAdmin = require("../middleware/admin");
 
 router.get("/", async (req, res) => {
-	const department = await Department.find().sort("name");
+	const department = await Department.find().sort("department");
 
 	res.send(department);
 });
@@ -20,7 +20,7 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", [auth, isAdmin, validate(validationJoi)], async (req, res) => {
 	const department = new Department({
-		name: req.body.name,
+		department: req.body.department,
 	});
 
 	await department.save();

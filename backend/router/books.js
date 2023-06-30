@@ -29,7 +29,7 @@ router.post("/", [auth, isAdmin, validate(validationJoi)], async (req, res) => {
 		author: req.body.author,
 		department: {
 			_id: department._id,
-			name: department.name,
+			department: department.department,
 		},
 		bookNumber: req.body.bookNumber,
 		numberInStock: req.body.numberInStock,

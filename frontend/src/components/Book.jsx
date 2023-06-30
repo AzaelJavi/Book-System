@@ -8,7 +8,8 @@ import { toast } from "react-toastify";
 import Pagination from "./widgets/pagination";
 import { paginate } from "./../utils/paginate";
 import _ from "lodash";
-import SearchBar from "./widgets/searchBar";
+import SearchBar from "./widgets/searchBarBookCustomer";
+import BookListGroup from "./BookListGroup";
 
 function Books({ user }) {
 	const [departments, setDepartment] = useState([]);
@@ -34,7 +35,7 @@ function Books({ user }) {
 	useEffect(() => {
 		async function fetchDepartment() {
 			const { data } = await getDepartments();
-			const department = [{ _id: "", name: "All Departments" }, ...data];
+			const department = [{ _id: "", department: "All Departments" }, ...data];
 			setDepartment(department);
 		}
 
@@ -46,7 +47,6 @@ function Books({ user }) {
 		fetchBook();
 	}, []);
 
-	// console.log("department", departments);
 	const getPageData = () => {
 		let filtered = allBooks;
 
@@ -66,7 +66,6 @@ function Books({ user }) {
 	};
 
 	const handleListClick = (department) => {
-		// console.log(department);
 		setselectedDepartment(department);
 		setCurrentPage(1);
 		setMaxPageNumberLimit(5);
@@ -109,8 +108,8 @@ function Books({ user }) {
 		<React.Fragment>
 			<div className="flex flex-col gap-8 mt-10 xl:flex-row items-center ">
 				<div className="xl:self-start xl:ml-5">
-					<ListGroup
-						data={departments}
+					<BookListGroup
+						departments={departments}
 						onSelectedDepartment={handleListClick}
 						selectedDepartment={selectedDepartment}
 					/>
@@ -138,7 +137,11 @@ function Books({ user }) {
 						)}
 					</div>
 
-					<SearchBar value={searchQuery} onSearch={handleSearch} />
+					<SearchBar
+						value={searchQuery}
+						setValue={setSearchQuery}
+						onSearch={handleSearch}
+					/>
 
 					<div className="inline-block w-full py-2 sm:px-6 lg:px-6 overflow-x-auto">
 						<div className="md:inline-block min-w-full">
