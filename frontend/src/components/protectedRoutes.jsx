@@ -6,7 +6,6 @@ function ProtectedRoutes() {
 	const location = useLocation();
 	const user = auth.getCurrentUser();
 
-	console.log("User", user);
 	if (!user || !user.isAdmin) {
 		auth.logout();
 		return (

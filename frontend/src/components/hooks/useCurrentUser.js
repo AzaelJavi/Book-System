@@ -6,7 +6,6 @@ export default function useCurrentUser() {
 
 	useEffect(() => {
 		const user = auth.getCurrentUser();
-		console.log("User", user);
 		setUser(user);
 	}, []);
 

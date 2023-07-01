@@ -18,7 +18,6 @@ import useCurrentUser from "./components/hooks/useCurrentUser";
 
 function App() {
 	const user = useCurrentUser();
-	console.log("User", user);
 
 	return (
 		<React.Fragment>

@@ -54,8 +54,6 @@ function SearchBarBorrowReturn({
 		return divClassName;
 	};
 
-	console.log("borrower", borrower);
-	console.log("Item Propert", itemProperty);
 	return (
 		<>
 			<div className="m-auto">
