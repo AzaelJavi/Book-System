@@ -25,7 +25,6 @@ function LoginForm(props) {
 			const state = location.state;
 			window.location = state ? state.from : "/"; //This is connected to Protected Route
 		} catch (ex) {
-			console.log("Exx", ex);
 			if (ex.response && ex.response.status === 400) {
 				const errors = { ...error };
 				errors.email = ex.response.data;
