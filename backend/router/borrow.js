@@ -13,6 +13,12 @@ router.get("/", async (req, res) => {
 	res.send(borrow);
 });
 
+router.get("/:id", async (req, res) => {
+	const customer = await Borrow.find({ "customer._id": req.params.id });
+
+	res.send(customer);
+});
+
 router.post("/", [auth, isAdmin, validate(validationJoi)], async (req, res) => {
 	// Find the IDs based on req.body
 	let customer = await Customer.findById(req.body.customerId);
