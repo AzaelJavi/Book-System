@@ -18,7 +18,7 @@ function Select({ name, label, error, options, ...rest }) {
 				<option value="">Choose a Department...</option>
 				{options.map((item) => (
 					<option key={item._id} value={item._id}>
-						{item.name}
+						{item.department}
 					</option>
 				))}
 			</select>

@@ -59,10 +59,8 @@ function BooksForm(props) {
 				if (id === "new") return;
 
 				const { data: book } = await getBook(id);
-				// console.log("Book data received: ", book);
 				setData(mapToViewModel(book));
 			} catch (ex) {
-				// console.error("Error in populateBooks(): ", ex);
 				if (ex.response && ex.response.status === 404)
 					return navigate("/not-found");
 			}
@@ -95,8 +93,8 @@ function BooksForm(props) {
 				{renderInput("title", "Title")}
 				{renderInput("author", "Author")}
 				{renderSelect("departmentId", "Department", departments)}
-				{renderInput("bookNumber", "Book Number", "number")}
-				{renderInput("numberInStock", "Number in Stock", "number")}
+				{renderInput("bookNumber", "Book Number", id !== "new", "number")}
+				{renderInput("numberInStock", "Number in Stock", undefined, "number")}
 				<Button className={btnClassName}>Save</Button>
 			</form>
 		</div>

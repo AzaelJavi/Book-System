@@ -30,6 +30,7 @@ function List({ content, data, selectedData }) {
 							{item[itemKey.path]}
 							{itemKey.removeEvent ? (
 								<Button
+									key={item._id}
 									className={btnClassName}
 									onClick={() => itemKey.removeEvent(item)}>
 									<svg
