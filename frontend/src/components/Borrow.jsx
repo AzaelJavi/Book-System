@@ -7,6 +7,9 @@ import List from "./widgets/list";
 import BorrowerListGroup from "./BorrowerListGroup";
 import { toast } from "react-toastify";
 import Button from "./widgets/button";
+import { borrow } from "../services/borrowService";
+import Modal from "./widgets/modal";
+import Backdrop from "./widgets/backdrop";
 
 function Borrow(props) {
 	const [customers, setCustomers] = useState([]);
@@ -22,6 +25,19 @@ function Borrow(props) {
 	const [holdCustomer, setHoldCustomer] = useState(null);
 	const [holdBook, setHoldBook] = useState(null);
 
+	// Data
+	const [data, setData] = useState({
+		customerId: null,
+		bookIds: [],
+	});
+
+	// Modal
+	const [isModalOpen, setCloseModal] = useState(false);
+
+	const modalStatus = (isModalTrue) => {
+		setCloseModal(isModalTrue);
+	};
+
 	useEffect(() => {
 		async function fetchCustomers() {
 			const { data: customers } = await getCustomers();
@@ -36,7 +52,6 @@ function Borrow(props) {
 		fetchBooks();
 	}, [selectedCustomer, selectedBook]);
 
-	// console.log("Bookos", books);
 	const getSearchedData = () => {
 		let filteredBooks = books;
 		let filteredCustomer = customers;
@@ -72,7 +87,6 @@ function Borrow(props) {
 	const handleClickBook = (book) => {
 		setSearchBook(book.title);
 		setHoldBook(book);
-		console.log("Book: ", book);
 	};
 
 	const handleBorrowedBook = () => {
@@ -81,22 +95,26 @@ function Borrow(props) {
 		if (bookExists) return toast("You cannot borrow the same book!");
 
 		const addBook = [...selectedBook, holdBook];
+		const bookIds = addBook.map((book) => book._id.toString());
+		setData({ ...data, bookIds });
 		setSelectedBook(addBook);
 	};
 
 	const handleInputChangeForCustomer = (e) => {
-		console.log("Input changed: ", e.currentTarget.value);
 		setSearchCustomer(e.currentTarget.value);
 	};
 
 	const handleClickCustomer = (customer) => {
 		setSearchCustomer(customer.studentNumber);
 		setHoldCustomer(customer);
-		console.log("Customer: ", customer);
 	};
 
 	const handleBorrower = () => {
 		const borrower = [...selectedCustomer, holdCustomer];
+		const customerId = borrower
+			.map((customer) => customer._id.toString())
+			.join();
+		setData({ ...data, customerId });
 		setSelectedCustomer(borrower);
 	};
 
@@ -115,9 +133,32 @@ function Borrow(props) {
 
 		setSelectedCustomer(removeCustomer);
 	};
-	// console.log("Borrowed Books", borrowBooks);
+
+	const resetFields = () => {
+		setSearchBook("");
+		setSearchCustomer("");
+		setSelectedBook([]);
+		setSelectedCustomer([]);
+		setData({ customerId: null, bookIds: [] });
+	};
+
+	const handleBorrow = async () => {
+		try {
+			await borrow(data.customerId, data.bookIds);
+			resetFields();
+			setCloseModal(true);
+		} catch (ex) {
+			if (ex.response && ex.response.status === 400) {
+				const errorMessage = ex.response.data;
+				toast(errorMessage);
+			}
+		}
+	};
+
 	const { filteredBooks, filteredCustomer } = getSearchedData();
 
+	const isSelectionEmpty =
+		selectedBook.length === 0 || selectedCustomer.length === 0;
 	return (
 		<>
 			<div className="flex flex-col items-center justify-center h-96">
@@ -168,11 +209,24 @@ function Borrow(props) {
 							<p>No books borrowed yet.</p>
 						)}
 						<Button
+							onClick={handleBorrow}
+							disabled={isSelectionEmpty}
 							className={
-								"bg-blue-500 px-7 text-white font-medium py-2.5 hover:bg-blue-700 rounded-lg mt-10 self-end"
+								isSelectionEmpty
+									? "bg-blue-500 px-7 text-white font-medium py-3 hover:bg-blue-700 rounded-lg mt-10 self-end cursor-not-allowed"
+									: "bg-blue-500 px-7 text-white font-medium py-3 hover:bg-blue-700 rounded-lg mt-10 self-end"
 							}>
 							Borrow
 						</Button>
+						{isModalOpen && (
+							<>
+								<Modal
+									paragraph={"Successfully borrowed"}
+									modalStatus={() => modalStatus(false)}
+								/>
+								<Backdrop />
+							</>
+						)}
 					</div>
 				</div>
 			</div>
