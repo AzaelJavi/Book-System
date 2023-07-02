@@ -42,7 +42,7 @@ function Borrow(props) {
 		async function fetchCustomers() {
 			const { data: customers } = await getCustomers();
 			setCustomers(customers);
-		} // Get by its ID
+		}
 
 		async function fetchBooks() {
 			const { data: books } = await getBooks();
@@ -81,7 +81,12 @@ function Borrow(props) {
 	};
 
 	const handleInputChangeForBook = (e) => {
-		setSearchBook(e.currentTarget.value);
+		const { value } = e.currentTarget;
+
+		const foundBook = books.find((b) => b.title === value);
+
+		setSearchBook(value);
+		setHoldBook(foundBook);
 	};
 
 	const handleClickBook = (book) => {
@@ -90,6 +95,8 @@ function Borrow(props) {
 	};
 
 	const handleBorrowedBook = () => {
+		if (!holdBook) return toast("Book was not found!");
+
 		const bookExists = selectedBook.find((book) => book._id === holdBook._id);
 
 		if (bookExists) return toast("You cannot borrow the same book!");
@@ -101,7 +108,12 @@ function Borrow(props) {
 	};
 
 	const handleInputChangeForCustomer = (e) => {
-		setSearchCustomer(e.currentTarget.value);
+		const { value } = e.currentTarget;
+
+		const foundCustomer = customers.find((c) => c.studentNumber === value);
+
+		setSearchCustomer(value);
+		setHoldCustomer(foundCustomer);
 	};
 
 	const handleClickCustomer = (customer) => {
@@ -110,6 +122,8 @@ function Borrow(props) {
 	};
 
 	const handleBorrower = () => {
+		if (!holdCustomer) return toast("Customer was not found!");
+
 		const borrower = [...selectedCustomer, holdCustomer];
 		const customerId = borrower
 			.map((customer) => customer._id.toString())
