@@ -1,7 +1,6 @@
 import React from "react";
 import Table from "./widgets/table";
 import { Link } from "react-router-dom";
-import auth from "../services/authService";
 import useCurrentUser from "./hooks/useCurrentUser";
 
 function BooksTable({ books, onDeleteBook, onSort, sortColumn }) {
@@ -17,7 +16,7 @@ function BooksTable({ books, onDeleteBook, onSort, sortColumn }) {
 			),
 		},
 		{ path: "author", label: "Author", sort: true },
-		{ path: "department.name", label: "Department" },
+		{ path: "department.department", label: "Department" },
 		{ path: "bookNumber", label: "Book Number", sort: true },
 		{ path: "numberInStock", label: "Stock" },
 	];
