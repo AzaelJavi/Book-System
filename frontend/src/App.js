@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+	BrowserRouter,
+	Navigate,
+	Route,
+	Routes,
+	useNavigate,
+} from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Book from "./components/Book";
 import Customer from "./components/Customer";
@@ -12,7 +18,6 @@ import CustomersForm from "./components/customersForm";
 import LoginForm from "./components/loginForm";
 import RegisterForm from "./components/registerForm";
 import Logout from "./components/logout";
-import auth from "./services/authService";
 import ProtectedRoutes from "./components/protectedRoutes";
 import useCurrentUser from "./components/hooks/useCurrentUser";
 

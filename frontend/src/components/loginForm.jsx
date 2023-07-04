@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Joi from "joi-browser";
-import { useLocation } from "react-router-dom";
+import { useLocation, Navigate } from "react-router-dom";
 import useForm from "./widgets/useForm";
 import Button from "./widgets/button";
 import auth from "../services/authService";
@@ -30,7 +30,6 @@ function LoginForm(props) {
 				errors.email = ex.response.data;
 				errors.password = ex.response.data;
 				setError(errors);
-				console.log("errors", errors);
 			}
 		}
 	};
