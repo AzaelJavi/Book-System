@@ -5,12 +5,28 @@ import { greet } from "../../utils/greetUser";
 const navigation = [
 	{ name: "Books", path: "/books" },
 	{ name: "Customers", path: "/customers" },
-	{ name: "Borrow", path: "/borrows" },
 	// { name: 'Returned', path: '#', current: false },
 ];
 
 function Navbar({ user }) {
 	const [isOpen, setIsOpen] = useState(false);
+
+	const showAdminComponents = [
+		{
+			name: "Borrow",
+			path: "/borrows",
+		},
+		// { name: "Return", path: "/returns" },
+	];
+
+	if (user && user.isAdmin) {
+		showAdminComponents.forEach((item) => {
+			const itemExists = navigation.some(
+				(navItem) => navItem.name === item.name
+			);
+			if (!itemExists) navigation.push(item);
+		});
+	}
 
 	const handleClick = () => {
 		setIsOpen(!isOpen);
@@ -73,8 +89,7 @@ function Navbar({ user }) {
 											isActive
 												? "bg-gray-900 text-white rounded-md px-3 py-2 font-medium"
 												: "text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2"
-										}
-										aria-current={item.current ? "page" : undefined}>
+										}>
 										{item.name}
 									</NavLink>
 								))}

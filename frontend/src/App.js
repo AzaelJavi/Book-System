@@ -30,10 +30,10 @@ function App() {
 				<Route element={<ProtectedRoutes />}>
 					<Route path="/books/:id" element={<BooksForm />} exact />
 					<Route path="/customers/:id" element={<CustomersForm />} />
+					<Route path="/borrows" element={<Borrow />} />
 				</Route>
 				<Route path="/books" element={<Book user={user} />} />
 				<Route path="/customers" element={<Customer user={user} />} />
-				<Route path="/borrows" element={<Borrow />} />
 				<Route path="/not-found" element={<NotFound />} />
 				<Route path="/" element={<Navigate to="/books" />} />
 				<Route path="*" element={<Navigate to="/not-found" />} />
