@@ -38,6 +38,9 @@ router.post("/", [auth, isAdmin, validate(validationJoi)], async (req, res) => {
 	const borrowBooks = [];
 	let borrow;
 
+	if (books.length + customer.books.length > 5)
+		return res.status(400).send("Five books per customer only.");
+
 	for (const book of books) {
 		if (book.numberInStock === 0)
 			return res.status(400).send(`The book ${book.title} is not in stock.`);
