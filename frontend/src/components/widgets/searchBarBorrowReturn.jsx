@@ -14,7 +14,7 @@ function SearchBarBorrowReturn({
 	borrowBooks,
 }) {
 	const btnClassName =
-		"p-3 mx-2 text-pink-600 font-semibold hover:text-pink-700 transition ease-in-out uppercase rounded-md";
+		"p-3 mx-2 text-pink-600 font-semibold hover:text-pink-700 transition focus:outline-none ease-in-out uppercase rounded-md";
 
 	const dropdownHeight = data.length > 0 ? `${data.length * 40 + 15}px` : "0";
 
@@ -32,7 +32,7 @@ function SearchBarBorrowReturn({
 		setValue("");
 	};
 
-	const renderSearchInner = () => {
+	const classNameSearchInner = () => {
 		let divClassName =
 			"flex items-center h-12 text-sm border-2 border-pink-500 focus:outline-none focus:ring-1 focus:ring-pink-500 z-0 ";
 
@@ -43,7 +43,7 @@ function SearchBarBorrowReturn({
 		return divClassName;
 	};
 
-	const renderDropDown = () => {
+	const classNameDropdown = () => {
 		let divClassName =
 			"absolute top-full left-0 w-96 flex flex-col border-2 rounded-b-3xl border-pink-500 bg-white z-10 ";
 
@@ -61,7 +61,7 @@ function SearchBarBorrowReturn({
 				{/* Search Container */}
 				<div className="w-96 flex flex-col relative">
 					{/* Search Inner */}
-					<div className={renderSearchInner()}>
+					<div className={classNameSearchInner()}>
 						<input
 							type="text"
 							value={value}
@@ -98,7 +98,9 @@ function SearchBarBorrowReturn({
 						</Button>
 					</div>
 					{/* Dropdown  */}
-					<div className={renderDropDown()} style={{ height: dropdownHeight }}>
+					<div
+						className={classNameDropdown()}
+						style={{ height: dropdownHeight }}>
 						{data.map((item) => {
 							return (
 								<div
