@@ -5,7 +5,6 @@ import { greet } from "../../utils/greetUser";
 const navigation = [
 	{ name: "Books", path: "/books" },
 	{ name: "Customers", path: "/customers" },
-	// { name: 'Returned', path: '#', current: false },
 ];
 
 function Navbar({ user }) {
@@ -16,7 +15,7 @@ function Navbar({ user }) {
 			name: "Borrow",
 			path: "/borrows",
 		},
-		// { name: "Return", path: "/returns" },
+		{ name: "Return", path: "/returns" },
 	];
 
 	if (user && user.isAdmin) {
@@ -32,15 +31,12 @@ function Navbar({ user }) {
 		setIsOpen(!isOpen);
 	};
 
-	// console.log("User", user);
-	// const username = user.username;
-
 	return (
 		<header>
 			<nav className="bg-gray-800">
 				<div className="mx-auto max-w-7xl p-2 ">
 					<div className="relative h-10 flex justify-between ">
-						<div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+						<div className="absolute inset-y-0 left-0 flex items-center md:hidden">
 							<button
 								className="inline-flex items-center justify-center rounded-md p-2 border-2 border-white text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
 								onClick={handleClick}>
@@ -74,13 +70,13 @@ function Navbar({ user }) {
 								)}
 							</button>
 						</div>
-						<div className="flex flex-1 items-center justify-center sm:justify-start space-x-4 sm:mx-10 xl:mx-0">
+						<div className="flex flex-1 items-center justify-center md:justify-start space-x-4 md:mx-10 xl:mx-0">
 							<div className="flex flex-shrink-0 items-center">
 								<Link to="/" className="text-white hover:text-gray-200">
 									Bookezy
 								</Link>
 							</div>
-							<div className="hidden sm:block">
+							<div className="hidden md:block">
 								{navigation.map((item) => (
 									<NavLink
 										key={item.name}
@@ -111,7 +107,7 @@ function Navbar({ user }) {
 							<div className="flex justify-center items-center sm:mx-10 xl:mx-0">
 								<Link
 									to="/profile"
-									className="text-white hover:text-gray-200 mr-6">
+									className="text-white hover:text-gray-200 mr-6 whitespace-nowrap">
 									{greet(user.username)}
 								</Link>
 								<Link to="/logout" className="text-white hover:text-gray-200">

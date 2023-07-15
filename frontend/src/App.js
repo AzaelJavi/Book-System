@@ -20,6 +20,7 @@ import RegisterForm from "./components/registerForm";
 import Logout from "./components/logout";
 import ProtectedRoutes from "./components/protectedRoutes";
 import useCurrentUser from "./components/hooks/useCurrentUser";
+import Return from "./components/Return";
 
 function App() {
 	const user = useCurrentUser();
@@ -36,6 +37,7 @@ function App() {
 					<Route path="/books/:id" element={<BooksForm />} exact />
 					<Route path="/customers/:id" element={<CustomersForm />} />
 					<Route path="/borrows" element={<Borrow />} />
+					<Route path="/returns" element={<Return />} />
 				</Route>
 				<Route path="/books" element={<Book user={user} />} />
 				<Route path="/customers" element={<Customer user={user} />} />
