@@ -53,10 +53,7 @@ function Borrow(props) {
 	}, [selectedCustomer, selectedBook]);
 
 	const getSearchedData = () => {
-		let filteredBooks = books;
-		let filteredCustomer = customers;
-
-		filteredBooks = books
+		const filteredBooks = books
 			.filter((book) => {
 				const title = book.title.toLowerCase();
 				const searchTerm = searchBook.toLowerCase();
@@ -67,7 +64,7 @@ function Borrow(props) {
 			})
 			.slice(0, 5);
 
-		filteredCustomer = customers
+		const filteredCustomer = customers
 			.filter((customer) => {
 				return (
 					searchCustomer &&
@@ -160,7 +157,7 @@ function Borrow(props) {
 		try {
 			await borrow(data.customerId, data.bookIds);
 			resetFields();
-			setCloseModal(true);
+			modalStatus(true);
 		} catch (ex) {
 			if (ex.response && ex.response.status === 400) {
 				const errorMessage = ex.response.data;
