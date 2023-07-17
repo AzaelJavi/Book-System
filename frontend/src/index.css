@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-div {
+/* div {
 	border: 1px solid red;
-}
+} */
 
 /* button {
 	border: 1px solid yellow;
