@@ -1,6 +1,7 @@
 {
 	"jwtPrivateKey": "",
-	"db": "mongodb://localhost/bookRental",
+	"db": "mongodb+srv://mitobe17:kaizen17@cluster0.euntklj.mongodb.net/?retryWrites=true&w=majority",
 	"port": "3300",
-	"requiresAuth": false
+
+	"requiresAuth": true
 }
