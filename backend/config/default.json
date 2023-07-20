@@ -1,6 +1,6 @@
 {
 	"jwtPrivateKey": "",
-	"db": "mongodb+srv://mitobe17:kaizen17@cluster0.euntklj.mongodb.net/?retryWrites=true&w=majority",
+	"db": "mongodb://localhost:27017/",
 	"port": "3300",
 	"requiresAuth": true
 }
