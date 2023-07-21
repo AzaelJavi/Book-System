@@ -1,6 +1,9 @@
 {
 	"jwtPrivateKey": "",
-	"db": "mongodb://127.0.0.1/bookRental",
 	"port": "3300",
-	"requiresAuth": true
+	"requiresAuth": true,
+	"db": {
+		"development": "mongodb://127.0.0.1/bookRental",
+		"production": "${PRODUCTION_DB}"
+	}
 }
