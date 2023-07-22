@@ -5,7 +5,7 @@ module.exports = function () {
 	const db =
 		process.env.NODE_ENV === "production"
 			? process.env.PRODUCTION_DB
-			: config.get("db.development");
+			: process.env.DEVELOPMENT_DB;
 
 	mongoose
 		.connect(db, { useNewUrlParser: true })

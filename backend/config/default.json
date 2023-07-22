@@ -3,7 +3,7 @@
 	"port": "3300",
 	"requiresAuth": true,
 	"db": {
-		"development": "mongodb://127.0.0.1/bookRental",
+		"development": "${DEVELOPMENT_DB}",
 		"production": "${PRODUCTION_DB}"
 	}
 }
