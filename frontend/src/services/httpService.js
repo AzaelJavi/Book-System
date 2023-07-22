@@ -39,4 +39,5 @@ export default {
 	post: axios.post,
 	put: axios.put,
 	delete: axios.delete,
+	setJwt,
 };
