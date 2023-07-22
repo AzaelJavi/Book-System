@@ -1,9 +1,6 @@
 {
 	"jwtPrivateKey": "",
+	"db": "",
 	"port": "3300",
-	"requiresAuth": true,
-	"db": {
-		"development": "${DEVELOPMENT_DB}",
-		"production": "${PRODUCTION_DB}"
-	}
+	"requiresAuth": true
 }

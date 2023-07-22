@@ -1,4 +1,4 @@
 {
 	"jwtPrivateKey": "PRIVATE_KEY",
-	"db": "PRODUCTION_DB"
+	"db": "MONGO_DB"
 }
