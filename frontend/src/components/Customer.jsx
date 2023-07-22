@@ -99,7 +99,7 @@ function Customer({ user }) {
 						{totalCount === 0 ? (
 							<p className="my-2 sm:mx-6">
 								{" "}
-								There are no books in the database
+								There are no customers in the database
 							</p>
 						) : (
 							<p className="my-2 sm:mx-6">

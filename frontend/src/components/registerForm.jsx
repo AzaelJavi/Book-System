@@ -39,7 +39,7 @@ function RegisterForm(props) {
 	});
 
 	const btnClassName =
-		"bg-blue-500 px-7 text-white font-medium py-2.5 hover:bg-blue-700 rounded-lg";
+		"bg-blue-500 px-7 text-white font-medium py-2.5 hover:bg-blue-700 rounded-lg mt-2";
 
 	return (
 		<div className="m-10 w-auto">
