@@ -2,10 +2,7 @@ const mongoose = require("mongoose");
 const config = require("config");
 
 module.exports = function () {
-	const db =
-		process.env.NODE_ENV === "production"
-			? process.env.PRODUCTION_DB
-			: process.env.DEVELOPMENT_DB;
+	const db = process.env.PRODUCTION_DB;
 
 	mongoose
 		.connect(db, { useNewUrlParser: true })
